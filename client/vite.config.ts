@@ -24,6 +24,15 @@ export default defineConfig({
       },
     },
   },
+  define: {
+    // Fallback values when env vars are not set (e.g. Vercel build)
+    'import.meta.env.VITE_API_URL': JSON.stringify(
+      process.env.VITE_API_URL ?? 'https://collab-code-editor-n9j1.onrender.com'
+    ),
+    'import.meta.env.VITE_WS_URL': JSON.stringify(
+      process.env.VITE_WS_URL ?? 'wss://collab-code-editor-n9j1.onrender.com'
+    ),
+  },
   build: {
     outDir: 'dist',
     sourcemap: true,
