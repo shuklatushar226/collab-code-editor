@@ -18,10 +18,16 @@ export default function HomePage() {
     if (user) return true;
     const name = guestName.trim() || `Guest ${Math.floor(Math.random() * 1000)}`;
     try {
+      console.log('[ensureUser] calling authApi.guest with name:', name);
       const { data } = await import('../services/api').then(m => m.authApi.guest({ name }));
+      console.log('[ensureUser] success:', data);
       setUser(data.user, data.token);
       return true;
-    } catch {
+    } catch (err: any) {
+      console.error('[ensureUser] error:', err);
+      console.error('[ensureUser] response:', err?.response);
+      console.error('[ensureUser] message:', err?.message);
+      console.error('[ensureUser] code:', err?.code);
       toast.error('Failed to create guest session');
       return false;
     }

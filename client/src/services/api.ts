@@ -4,6 +4,9 @@ import { useUserStore } from '../store/userStore';
 // In dev, VITE_API_URL is empty → relative URL → Vite proxy forwards to localhost:3001
 // In production, VITE_API_URL = https://your-railway-backend.railway.app
 const BASE_URL = import.meta.env.VITE_API_URL ?? '';
+console.log('[api] VITE_API_URL =', import.meta.env.VITE_API_URL);
+console.log('[api] BASE_URL =', BASE_URL);
+console.log('[api] baseURL =', `${BASE_URL}/api`);
 
 const api = axios.create({
   baseURL: `${BASE_URL}/api`,
