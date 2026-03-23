@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Environment (NEVER commit secrets)
+.env
+.env.local
+.env.*.local
+server/.env
+executor/.env
+client/.env
+!.env.example
+!client/.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Testing
+coverage/
+.nyc_output/
+
+# Docker
+.docker/
+
+# Temp
+tmp/
+temp/

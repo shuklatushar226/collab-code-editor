@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #1e1e1e;
+    color: #cccccc;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  #root { height: 100vh; display: flex; flex-direction: column; }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #1e1e1e; }
+  ::-webkit-scrollbar-thumb { background: #424242; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #555; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium
+           transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-editor-panel hover:bg-editor-border text-editor-text rounded-md font-medium
+           transition-colors duration-150 border border-editor-border;
+  }
+
+  .btn-danger {
+    @apply px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md font-medium transition-colors duration-150;
+  }
+
+  .input {
+    @apply w-full px-3 py-2 bg-editor-panel border border-editor-border rounded-md text-editor-text
+           placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+           transition-colors duration-150;
+  }
+
+  .panel { @apply bg-editor-sidebar border border-editor-border rounded-lg; }
+}
+
+/* Monaco editor cursor tracking */
+.remote-cursor-label {
+  font-size: 11px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: white;
+  pointer-events: none;
+  white-space: nowrap;
+  position: absolute;
+  top: -18px;
+  left: 0;
+  font-family: 'Inter', sans-serif;
+  z-index: 100;
+}

@@ -1,0 +1,24 @@
+{
+  "name": "collaborative-code-editor",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "client",
+    "server",
+    "executor"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "dev": "concurrently -n shared,server,client -c cyan,green,blue \"npm run dev -w shared\" \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w shared && npm run build -w server && npm run build -w client",
+    "migrate": "npm run migrate -w server",
+    "docker:build:executors": "bash scripts/build-executors.sh",
+    "docker:up": "docker-compose up -d postgres redis",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
