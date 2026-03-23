@@ -2,8 +2,17 @@ import Redis from 'ioredis';
 import { CONFIG } from '../config';
 import { logger } from '../utils/logger';
 
-// Support both REDIS_URL (Upstash / cloud) and individual host/port (local/Docker)
-const REDIS_URL = process.env.REDIS_URL;
+// Support Upstash REST credentials, REDIS_URL, or individual host/port
+const UPSTASH_REST_URL = process.env.UPSTASH_REDIS_REST_URL;
+const UPSTASH_REST_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
+const REDIS_URL = process.env.REDIS_URL ?? (() => {
+  if (UPSTASH_REST_URL && UPSTASH_REST_TOKEN) {
+    // Convert https://host to rediss://default:TOKEN@host:6379
+    const host = UPSTASH_REST_URL.replace(/^https?:\/\//, '');
+    return `rediss://default:${UPSTASH_REST_TOKEN}@${host}:6379`;
+  }
+  return undefined;
+})();
 
 function makeClient(): Redis {
   if (REDIS_URL) {
