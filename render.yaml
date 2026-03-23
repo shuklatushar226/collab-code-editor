@@ -1,0 +1,55 @@
+services:
+  - type: web
+    name: collab-editor-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+
+      # Database — auto-wired from the PostgreSQL service below
+      - key: DB_HOST
+        fromDatabase:
+          name: collab-editor-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: collab-editor-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: collab-editor-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: collab-editor-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: collab-editor-db
+          property: password
+
+      # Redis — set REDIS_URL manually from Upstash (free) after deploy
+      - key: REDIS_URL
+        sync: false
+
+      # Security — auto-generated strong random value
+      - key: JWT_SECRET
+        generateValue: true
+
+      # CORS — set this to your Vercel frontend URL after deploy
+      - key: CORS_ORIGIN
+        sync: false
+
+      - key: EXECUTOR_URL
+        value: disabled   # Piston API fallback is used in cloud
+
+databases:
+  - name: collab-editor-db
+    plan: free
+    databaseName: collab_editor
+    user: collab_user

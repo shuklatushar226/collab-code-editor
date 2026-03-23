@@ -2,18 +2,31 @@ import Redis from 'ioredis';
 import { CONFIG } from '../config';
 import { logger } from '../utils/logger';
 
-const redisConfig = {
-  host: CONFIG.REDIS.HOST,
-  port: CONFIG.REDIS.PORT,
-  password: CONFIG.REDIS.PASSWORD,
-  maxRetriesPerRequest: 3,
-  enableReadyCheck: true,
-  retryStrategy: (times: number) => Math.min(times * 50, 2000),
-};
+// Support both REDIS_URL (Upstash / cloud) and individual host/port (local/Docker)
+const REDIS_URL = process.env.REDIS_URL;
 
-export const redis = new Redis(redisConfig);
-export const redisSub = new Redis(redisConfig); // Dedicated subscriber client
-export const redisPub = new Redis(redisConfig); // Dedicated publisher client
+function makeClient(): Redis {
+  if (REDIS_URL) {
+    return new Redis(REDIS_URL, {
+      maxRetriesPerRequest: 3,
+      enableReadyCheck: false, // Upstash doesn't support CLIENT SETNAME
+      tls: REDIS_URL.startsWith('rediss://') ? {} : undefined,
+      retryStrategy: (times: number) => Math.min(times * 50, 2000),
+    });
+  }
+  return new Redis({
+    host: CONFIG.REDIS.HOST,
+    port: CONFIG.REDIS.PORT,
+    password: CONFIG.REDIS.PASSWORD,
+    maxRetriesPerRequest: 3,
+    enableReadyCheck: true,
+    retryStrategy: (times: number) => Math.min(times * 50, 2000),
+  });
+}
+
+export const redis = makeClient();
+export const redisSub = makeClient(); // Dedicated subscriber client
+export const redisPub = makeClient(); // Dedicated publisher client
 
 redis.on('connect', () => logger.info('Redis connected'));
 redis.on('error', (err) => logger.error('Redis error:', err));
