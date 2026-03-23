@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Code2, Zap, Users, Lock, Terminal, GitBranch } from 'lucide-react';
-import { roomApi } from '../services/api';
+import { roomApi, authApi } from '../services/api';
 import { useUserStore } from '../store/userStore';
 import toast from 'react-hot-toast';
 import clsx from 'clsx';
@@ -19,7 +19,7 @@ export default function HomePage() {
     const name = guestName.trim() || `Guest ${Math.floor(Math.random() * 1000)}`;
     try {
       console.log('[ensureUser] calling authApi.guest with name:', name);
-      const { data } = await import('../services/api').then(m => m.authApi.guest({ name }));
+      const { data } = await authApi.guest({ name });
       console.log('[ensureUser] success:', data);
       setUser(data.user, data.token);
       return true;
