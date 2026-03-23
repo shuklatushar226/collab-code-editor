@@ -1,5 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+// Wake up Render backend on app load (free tier sleeps after inactivity)
+const API = import.meta.env.VITE_API_URL ?? 'https://collab-code-editor-n9j1.onrender.com';
+fetch(`${API}/api/auth/guest`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{"name":"__ping__"}' }).catch(() => {});
 import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import App from './App';

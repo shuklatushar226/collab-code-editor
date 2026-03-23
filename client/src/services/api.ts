@@ -7,7 +7,7 @@ const BASE_URL = import.meta.env.VITE_API_URL ?? '';
 
 const api = axios.create({
   baseURL: `${BASE_URL}/api`,
-  timeout: 30_000,
+  timeout: 90_000,
 });
 
 api.interceptors.request.use((config) => {
