@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback, useEffect, useState } from 'react';
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import type * as Monaco from 'monaco-editor';
 import { useRoomStore } from '../../store/roomStore';
@@ -125,9 +125,9 @@ export default function CodeEditor({ roomId }: Props) {
 // Helper hook for ref-based state to avoid stale closures
 function useRefState<T>(initial: T): [T, (v: T) => void] {
   const ref = useRef(initial);
-  const [, setTick] = require('react').useState(0);
+  const [, setTick] = useState(0);
   return [
     ref.current,
-    (v: T) => { ref.current = v; setTick(t => t + 1); },
+    (v: T) => { ref.current = v; setTick((t: number) => t + 1); },
   ];
 }

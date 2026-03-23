@@ -20,7 +20,8 @@ export default function PresenceList() {
           )}
           style={{
             backgroundColor: u.color,
-            ringColor: u.color,
+            outline: `2px solid ${u.color}`,
+            outlineOffset: '1px',
           }}
         >
           {u.name.charAt(0).toUpperCase()}

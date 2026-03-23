@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import type * as Monaco from 'monaco-editor';
 import Header from '../components/Layout/Header';

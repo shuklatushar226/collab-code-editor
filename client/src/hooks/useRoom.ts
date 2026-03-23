@@ -10,7 +10,7 @@ export function useRoom(roomId: string) {
   const store = useRoomStore();
   const { user } = useUserStore();
   const socket = getSocket();
-  const pingInterval = useRef<NodeJS.Timeout>();
+  const pingInterval = useRef<ReturnType<typeof setInterval>>();
 
   const initRoom = useCallback(async () => {
     if (!user || !roomId) return;
