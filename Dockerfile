@@ -9,7 +9,7 @@ COPY shared/ ./shared/
 # Copy server and install its dependencies
 COPY server/package*.json ./server/
 WORKDIR /app/server
-RUN npm ci
+RUN npm install
 
 # Copy server source and build
 COPY server/ .
@@ -26,7 +26,7 @@ COPY --from=builder /app/server/dist ./dist
 
 # Copy package files and install only production deps
 COPY --from=builder /app/server/package*.json ./
-RUN npm ci --omit=dev
+RUN npm install --omit=dev
 
 EXPOSE 3001
 USER node
