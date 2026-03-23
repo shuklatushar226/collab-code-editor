@@ -37,8 +37,8 @@ export function useYjs({ roomId, fileId, editor }: UseYjsOptions) {
 
     // In dev: derive from window.location (goes through Vite WS proxy).
     // In prod: use VITE_WS_URL env var (e.g. wss://your-backend.railway.app).
-    const wsUrl = import.meta.env.VITE_WS_URL
-      ?? `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/yjs`;
+    const wsBase = (import.meta.env.VITE_WS_URL ?? `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}`).trim();
+    const wsUrl = `${wsBase}/yjs`;
 
     const provider = new WebsocketProvider(wsUrl, `${roomId}:${fileId}`, ydoc, {
       params: { roomId, fileId, userId: user.id },

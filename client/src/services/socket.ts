@@ -6,7 +6,7 @@ type TypedSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 let socket: TypedSocket | null = null;
 
 // In dev: connect to '/' (proxied by Vite). In prod: connect to Railway backend URL.
-const SOCKET_URL = import.meta.env.VITE_API_URL ?? '/';
+const SOCKET_URL = (import.meta.env.VITE_API_URL ?? '/').trim();
 
 export function getSocket(): TypedSocket {
   if (!socket) {
