@@ -3,11 +3,15 @@ import { CONFIG } from '../config';
 import { logger } from '../utils/logger';
 
 export const pool = new Pool({
-  host: CONFIG.DB.HOST,
-  port: CONFIG.DB.PORT,
-  database: CONFIG.DB.NAME,
-  user: CONFIG.DB.USER,
-  password: CONFIG.DB.PASSWORD,
+  connectionString: process.env.DATABASE_URL,
+  ...(!process.env.DATABASE_URL && {
+    host: CONFIG.DB.HOST,
+    port: CONFIG.DB.PORT,
+    database: CONFIG.DB.NAME,
+    user: CONFIG.DB.USER,
+    password: CONFIG.DB.PASSWORD,
+  }),
+  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : undefined,
   max: CONFIG.DB.POOL_MAX,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 5000,
